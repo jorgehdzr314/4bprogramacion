@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DragonBallZ</title>
+    <style>
+     :root{
+        --color-primario: #F8E16C;
+        --color-secundario:#E4572E;
+        --color-terceario:#29335C;
+        --color-cuarto:#669BBC;
+        --color-quinto:#7B9E87;
+     }
+     * {
+        box-sizing: border-box;
+     }
+     body{
+        background-color: var(--color-primario);
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        margin: 0;
+     }
+     header{
+        padding: 20px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--color-secundario);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        margin-bottom: 30px;
+     }
+     #form {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+     }
+     .search{
+        background-color: var(--color-primario);
+        border: 2px solid var(--color-terceario);
+        border-radius: 25px;
+        font-family: inherit;
+        font-size: 16px;
+        padding: 10px 20px;
+        color: var(--color-terceario);
+        width: 250px;
+        transition: background 0.3s, border 0.3s;
+     }
+     .search::placeholder{
+        color: var(--color-terceario);  
+        opacity: 0.7;
+     }
+     .search:focus{
+        outline: none;
+        background-color: var(--color-quinto);
+        border-color: var(--color-cuarto);
+     }
+     main{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+        padding: 20px;
+        min-height: 80vh;
+     }
+     .personaje{
+        width: 320px;
+        background: var(--color-secundario);
+        border-radius: 15px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        margin: 10px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: transform 0.2s;
+     }
+     .personaje:hover {
+        transform: translateY(-8px) scale(1.03);
+        box-shadow: 0 16px 32px rgba(0,0,0,0.18);
+     }
+     .personaje img {
+        width: 100%;
+        height: 320px;
+        object-fit: contain;
+        background: #fff;
+        border-bottom: 2px solid var(--color-terceario);
+     }
+     .personaje-info{
+        color: var(--color-terceario);
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        padding: 18px 10px 8px 10px;
+        background: var(--color-primario);
+        border-bottom: 1px solid var(--color-cuarto);
+     }
+     .personaje-info h3{
+        color: var(--color-terceario);
+        margin: 0;
+        font-size: 1.3em;
+        letter-spacing: 2px;
+     }
+     .personaje-info span {
+        font-size: 1em;
+        color: var(--color-cuarto);
+        font-weight: bold;
+     }
+     .description {
+        color: #fff;
+        background: transparent;
+        padding: 15px 18px 20px 18px;
+        font-size: 1em;
+        text-align: center;
+        min-height: 80px;
+     }
+     .description h3 {
+        color: var(--color-cuarto);
+        margin: 0 0 8px 0;
+        font-size: 1.1em;
+     }
+     .description strong {
+        color: var(--color-terceario);
+     }
+    </style>
+</head>
+<body>
+    <header>
+        <form id="form" autocomplete="off">
+            <img src="logo1.png" alt="logo" style="width: 80px;">
+            <input type="text" id="search" class="search" placeholder="Buscar Personaje">
+        </form>
+    </header>
+    <main id="main"></main>
+<script>
+    const API_URL = 'https://dragonball-api.com/api/characters';
+    const main = document.getElementById('main');
+    const form = document.getElementById('form');
+    const search = document.getElementById('search');
+
+    let allCharacters = [];
+    getDBZ(API_URL);
+
+    async function getDBZ(url) {
+        try {
+            const res = await fetch(url);
+            if (!res.ok) throw new Error('Network response was not ok');
+            const data = await res.json();
+            allCharacters = data.items || [];
+            showDBZ(allCharacters);
+        } catch (error) {
+            console.error('Error fetching characters:', error);
+            main.innerHTML = '<p style="color: white;">Error loading characters. Please try again later.</p>';
+        }
+    }
+
+    function showDBZ(characters) {
+        main.innerHTML = '';
+
+        if (!characters || characters.length === 0) {
+            main.innerHTML = '<p style="color: white;">No characters found.</p>';
+            return;
+        }
+
+        characters.forEach((character) => {
+            const { name, image, race, description, maxKi } = character;
+
+            const characterElement = document.createElement('div');
+            characterElement.classList.add('personaje');
+
+            characterElement.innerHTML = `
+                <img src="${image}" alt="${name}">
+                <div class="personaje-info">
+                    <h3>${name}</h3>
+                    <span>${race || 'Desconocido'}</span>
+                </div>
+                <div class="description">
+                    <h3>Descripción</h3>
+                    ${description || 'Sin descripción disponible.'}
+                    <br><br>
+                    <strong>Max Ki:</strong> ${maxKi || 'Desconocido'}
+                </div>
+            `;
+
+            main.appendChild(characterElement);
+        });
+    }
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const searchTerm = search.value.trim().toLowerCase();
+
+        if (searchTerm && searchTerm !== '') {
+            const filteredCharacters = allCharacters.filter(character =>
+                character.name.toLowerCase().includes(searchTerm)
+            );
+            showDBZ(filteredCharacters);
+            search.value = '';
+        } else {
+            showDBZ(allCharacters); 
+        }
+    });
+</script>
+</body>
+</html>
