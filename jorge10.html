@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harry Potter API</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background-color: #1a472a;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar-nav {
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-item {
+            transform: scale(0.8);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .nav-item:hover {
+            transform: scale(1);
+        }
+
+        .dropdown-menu {
+            text-align: center;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 10px 0;
+            border: none;
+        }
+
+        .dropdown-menu li {
+            padding: 5px 0;
+        }
+
+        .dropdown-item {
+            color: #333;
+            padding: 8px 20px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f8a50c;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50px;
+            background-color: #f8a50c;
+            padding: 10px 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+            width: auto;
+            min-width: 80%;
+        }
+
+        .nav-link {
+            color: green !important;
+            margin: 0 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-link:hover {
+            color: black !important;
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background-color: #000000;
+            margin-bottom: 30px;
+        }
+
+        .logo-hp {
+            height: 80px;
+        }
+
+        .search {
+            padding: 1rem;
+            border-radius: 25px;
+            border: 2px solid #740001;
+            background-color: #2a623d;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            font-size: 1rem;
+            width: 300px;
+            outline: none;
+        }
+
+        .search::placeholder {
+            color: #aaa;
+        }
+
+        .search:focus {
+            border-color: #d3a625;
+            box-shadow: 0 0 10px #d3a625;
+        }
+
+        #main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .character {
+            width: 300px;
+            background: linear-gradient(45deg, #740001, #2a623d);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .character:hover {
+            transform: translateY(-10px);
+        }
+
+        .character img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+        }
+
+        .character-info {
+            padding: 20px;
+            color: white;
+        }
+
+        .character-info h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #d3a625;
+            margin-bottom: 10px;
+        }
+
+        .info-item {
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+
+        .house-badge {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        .Gryffindor { background-color: #740001; color: #d3a625; }
+        .Slytherin { background-color: #1a472a; color: #aaaaaa; }
+        .Ravenclaw { background-color: #0e1a40; color: #946b2d; }
+        .Hufflepuff { background-color: #ecb939; color: #000000; }
+
+        @media (max-width: 700px) {
+            .character {
+                width: 95vw;
+                min-width: 0;
+            }
+            .search {
+                width: 90vw;
+            }
+            .logo-hp {
+                height: 60px;
+            }
+            header {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+       <nav class="navbar navbar-light">
+        <div class="container nav-container">
+            <a class="navbar-brand" href="#" style="color: black;">INICIO</a>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="unidad1.php" id="navbarDropdown1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: green;">
+                            UNIDAD 1
+                        </a>                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                            <li><a class="dropdown-item" href="Jorge01_modified.php">Práctica 1</a></li>
+                            <li><a class="dropdown-item" href="Jorge02.php">Práctica 2</a></li>
+                            <li><a class="dropdown-item" href="Jorge03.php">Práctica 3</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="unidad2.php" id="navbarDropdown2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: green;">
+                            UNIDAD 2
+                        </a>                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                            <li><a class="dropdown-item" href="Jorge04.php">Práctica 4</a></li>
+                            <li><a class="dropdown-item" href="Jorge05.php">Práctica 5</a></li>
+                            <li><a class="dropdown-item" href="jorge06.html">Práctica 6</a></li>
+                            
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="unidad3.php" id="navbarDropdown3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: green;">
+                            UNIDAD 3
+                        </a>                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown3">
+                            <li><a class="dropdown-item" href="jorge07.html">Práctica 7</a></li>
+                            <li><a class="dropdown-item" href="jorge08.html">Práctica 8</a></li>
+                            <li><a class="dropdown-item" href="jorge09.html">Práctica 9</a></li>
+                            <li><a class="dropdown-item" href="jorge10.html">Práctica 10</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <header>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Harry_Potter_wordmark.svg" alt="logo Harry Potter" class="logo-hp">
+        <form id="form">
+            <input type="text" id="search" class="search" placeholder="Buscar personaje">
+        </form>
+    </header>
+    <main id="main"></main>
+
+    <script>
+        const API_URL = 'https://hp-api.onrender.com/api/characters';
+        const main = document.getElementById('main');
+        const form = document.getElementById('form');
+        const search = document.getElementById('search');
+
+        // Get initial characters
+        getCharacters(API_URL);
+
+        async function getCharacters(url) {
+            const res = await fetch(url);
+            const data = await res.json();
+            showCharacters(data);
+        }
+
+        function showCharacters(characters) {
+            main.innerHTML = '';
+
+            characters.forEach(character => {
+                const { name, image, house, dateOfBirth, ancestry, patronus, actor } = character;
+
+                const characterEl = document.createElement('div');
+                characterEl.classList.add('character');
+
+                characterEl.innerHTML = `
+                    <img src="${image || 'https://via.placeholder.com/300x350.png?text=No+Image'}" alt="${name}">
+                    <div class="character-info">
+                        <h3>${name}</h3>
+                        ${house ? `<span class="house-badge ${house}">${house}</span>` : ''}
+                        <div class="info-item">
+                            ${dateOfBirth ? `<p>Fecha de nacimiento: ${dateOfBirth}</p>` : ''}
+                        </div>
+                        <div class="info-item">
+                            ${ancestry ? `<p>Ascendencia: ${ancestry}</p>` : ''}
+                        </div>
+                        <div class="info-item">
+                            ${patronus ? `<p>Patronus: ${patronus}</p>` : ''}
+                        </div>
+                        <div class="info-item">
+                            ${actor ? `<p>Actor: ${actor}</p>` : ''}
+                        </div>
+                    </div>
+                `;
+
+                main.appendChild(characterEl);
+            });
+        }
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+        });
+
+        search.addEventListener('keyup', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const characters = document.querySelectorAll('.character');
+
+            characters.forEach(character => {
+                const title = character.querySelector('h3').innerText.toLowerCase();
+                const info = character.querySelector('.character-info').innerText.toLowerCase();
+
+                if (title.includes(searchTerm) || info.includes(searchTerm)) {
+                    character.style.display = 'block';
+                } else {
+                    character.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

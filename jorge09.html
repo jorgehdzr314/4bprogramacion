@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personajes Dragon Ball</title>
+    <title>Personajes Rick and Morty</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <style>
         :root {
-            --color-primario: #1d3241;
-            --color-secundario: #420b11;
-            --color-terciario: #18113a;
-            --color-cuarto: #0d3d9d;
-            --color-quinto: #071013;
-            --color-acento: #ffb347;
+            --color-primario: #24325fff;
+            --color-secundario: #3c6e71ff;
+            --color-terciario: #70ae6eff;
+            --color-cuarto: #97ce4cff;
+            --color-quinto: #e89ac7ff;
+            --color-acento: #00b5cc;
             --color-blanco: #fff;
         }
         * {
@@ -24,15 +24,45 @@
         body {
             min-height: 100vh;
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1d3241 0%, #0d3d9d 100%);
+            padding: 0;
+        }
+        .navbar-nav {
+            display: flex;
+            justify-content: center;
+        }
+        .nav-item {
+            transform: scale(0.8);
+            transition: transform 0.3s ease-in-out;
+        }
+        .nav-item:hover {
+            transform: scale(1);
+        }
+        .dropdown-menu {
+            text-align: center;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50px;
+            background-color: #f8a50c;
+            padding: 10px 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+        .nav-link {
+            color: green !important;
+            margin: 0 10px;
+        }
+        .nav-link:hover {
+            color: black !important;
         }
         header {
             padding: 24px 0 24px 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: rgba(29, 50, 65, 0.85);
+            background: rgba(36, 50, 95, 0.85);
             box-shadow: 0 4px 24px rgba(0,0,0,0.2);
             border-bottom-left-radius: 30px;
             border-bottom-right-radius: 30px;
@@ -42,20 +72,16 @@
         }
         header img {
             width: auto;
-            height: 60px;
+            height: 80px;
             margin-bottom: 10px;
             border-radius: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.15));
         }
-        .logo-db {
-            height: 60px;
+        .logo-rm {
+            height: 80px;
             width: auto;
             margin-bottom: 10px;
             margin-right: 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-            background: #fff;
-            padding: 4px 10px;
             display: inline-block;
         }
         .search {
@@ -102,6 +128,7 @@
             align-items: center;
             overflow: hidden;
             transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
         }
         .personaje:hover {
             transform: scale(1.04) translateY(-8px);
@@ -111,7 +138,7 @@
         .personaje img {
             width: 100%;
             height: 340px;
-            object-fit: contain;
+            object-fit: cover;
             background: rgba(0,0,0,0.08);
             border-bottom: 2px solid var(--color-acento);
         }
@@ -123,7 +150,7 @@
             gap: 4px;
             padding: 12px 18px 8px 18px;
             width: 100%;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
         .personaje-info h1 {
             color: var(--color-acento);
@@ -137,10 +164,10 @@
             padding: 5px 12px;
             border-radius: 8px;
             font-weight: bold;
-            font-size: 1em;
+            font-size: 0.9em;
         }
         .overview {
-            background: rgba(29, 50, 65, 0.92);
+            background: rgba(36, 50, 95, 0.92);
             color: #fff;
             padding: 28px 20px 20px 20px;
             position: absolute;
@@ -161,37 +188,16 @@
             color: var(--color-acento);
             font-size: 1.1em;
         }
-        .navbar-nav {
-            display: flex;
-            justify-content: center;
+        .status-icon {
+            height: 0.8em;
+            width: 0.8em;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
         }
-        .nav-item {
-            transform: scale(0.8);
-            transition: transform 0.3s ease-in-out;
-        }
-        .nav-item:hover {
-            transform: scale(1);
-        }
-        .dropdown-menu {
-            text-align: center;
-        }
-        .nav-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 50px;
-            background-color: #f8a50c;
-            padding: 10px 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            margin-bottom: 20px;
-        }
-        .nav-link {
-            color: green !important;
-            margin: 0 10px;
-        }
-        .nav-link:hover {
-            color: black !important;
-        }
+        .status-Alive { background-color: #55cc44; }
+        .status-Dead { background-color: #d63d2e; }
+        .status-unknown { background-color: #9e9e9e; }
         @media (max-width: 700px) {
             .personaje {
                 width: 95vw;
@@ -200,8 +206,8 @@
             .search {
                 width: 90vw;
             }
-            .logo-db {
-                height: 40px;
+            .logo-rm {
+                height: 60px;
                 margin-right: 10px;
             }
             header {
@@ -251,7 +257,7 @@
         </div>
     </nav>
     <header>
-        <img src="images/Dragon-Ball-Logo.png" alt="logo Dragon Ball" class="logo-db">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Rick_and_Morty.svg" alt="logo Rick and Morty" class="logo-rm">
         <form id="form">
             <input type="text" id="search" class="search" placeholder="Busca tu personaje">
         </form>
@@ -259,36 +265,38 @@
     <main id="main"></main>
 
     <script>
-        const API_URL = 'https://dragonball-api.com/api/characters';
+        const API_URL = 'https://rickandmortyapi.com/api/character';
         const main = document.getElementById('main');
         const form = document.getElementById('form');
         const search = document.getElementById('search');
 
         getCharacters(API_URL);
 
-        async function getCharacters(url){
+        async function getCharacters(url) {
             const res = await fetch(url);
             const data = await res.json();
-            showCharacters(data.items || data);
+            showCharacters(data.results || data);
         }
 
-        function showCharacters(characters){
+        function showCharacters(characters) {
             main.innerHTML = '';
             characters.forEach((char) => {
-                const { id, name, image, ki, maxKi, race, gender, description } = char;
+                const { name, image, status, species, location, origin, episode } = char;
                 const charElements = document.createElement('div');
                 charElements.classList.add('personaje');
                 charElements.innerHTML = `
                     <img src="${image}" alt="${name}">
                     <div class="personaje-info">
                         <h1>${name}</h1>
-                        <span>${race}</span>
+                        <span>${species}</span>
                     </div>
                     <div class="overview">
-                        <h3>Descripción</h3> 
-                        <p><strong>Ki:</strong> ${ki}</p>
-                        <p><strong>Max Ki:</strong> ${maxKi}</p>
-                        <p>${description}</p>
+                        <h3>Información</h3>
+                        <p><span class="status-icon status-${status}"></span><strong>Estado:</strong> ${status}</p>
+                        <p><strong>Especie:</strong> ${species}</p>
+                        <p><strong>Origen:</strong> ${origin.name}</p>
+                        <p><strong>Ubicación:</strong> ${location.name}</p>
+                        <p><strong>Apariciones:</strong> ${episode.length} episodios</p>
                     </div>
                 `;
                 main.appendChild(charElements);
